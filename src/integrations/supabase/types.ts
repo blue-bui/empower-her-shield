@@ -9,7 +9,179 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      incidents: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          description: string
+          id: string
+          incident_time: string | null
+          location: string
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          incident_time?: string | null
+          location: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          incident_time?: string | null
+          location?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      investigations: {
+        Row: {
+          action_taken: string | null
+          created_at: string
+          findings: string | null
+          id: string
+          incident_id: string
+          official_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          action_taken?: string | null
+          created_at?: string
+          findings?: string | null
+          id?: string
+          incident_id: string
+          official_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          action_taken?: string | null
+          created_at?: string
+          findings?: string | null
+          id?: string
+          incident_id?: string
+          official_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investigations_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_anonymous: boolean | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          emergency_contact: string | null
+          full_name: string | null
+          id: string
+          phone_text: string | null
+          updated_at: string
+          user_type: Database["public"]["Enums"]["user_type"]
+        }
+        Insert: {
+          created_at?: string
+          emergency_contact?: string | null
+          full_name?: string | null
+          id: string
+          phone_text?: string | null
+          updated_at?: string
+          user_type: Database["public"]["Enums"]["user_type"]
+        }
+        Update: {
+          created_at?: string
+          emergency_contact?: string | null
+          full_name?: string | null
+          id?: string
+          phone_text?: string | null
+          updated_at?: string
+          user_type?: Database["public"]["Enums"]["user_type"]
+        }
+        Relationships: []
+      }
+      safe_routes: {
+        Row: {
+          created_at: string
+          end_location: string
+          id: string
+          name: string
+          safety_rating: number | null
+          start_location: string
+          updated_at: string
+          user_id: string
+          waypoints: Json | null
+        }
+        Insert: {
+          created_at?: string
+          end_location: string
+          id?: string
+          name: string
+          safety_rating?: number | null
+          start_location: string
+          updated_at?: string
+          user_id: string
+          waypoints?: Json | null
+        }
+        Update: {
+          created_at?: string
+          end_location?: string
+          id?: string
+          name?: string
+          safety_rating?: number | null
+          start_location?: string
+          updated_at?: string
+          user_id?: string
+          waypoints?: Json | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +190,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_type: "victim" | "official"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +305,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_type: ["victim", "official"],
+    },
   },
 } as const
