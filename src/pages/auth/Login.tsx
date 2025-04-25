@@ -8,15 +8,20 @@ import { supabase } from "@/integrations/supabase/client";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
       if (error) throw error;
       navigate('/dashboard');
     } catch (error: any) {
@@ -39,8 +44,8 @@ const Login = () => {
             <Input
               type="email"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
           </div>
@@ -48,8 +53,8 @@ const Login = () => {
             <Input
               type="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
             />
           </div>
