@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,37 +39,55 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-purple-100 to-pink-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-purple-800 mb-6 text-center">Login</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <Input
-              type="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-            />
-          </div>
-          <div>
-            <Input
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
-          </Button>
-        </form>
-        <p className="mt-4 text-center text-gray-600">
-          Don't have an account?{' '}
-          <button onClick={() => navigate('/auth/signup')} className="text-purple-600 hover:underline">
-            Sign up
-          </button>
-        </p>
+      <div className="w-full max-w-md px-4">
+        <Card className="shadow-xl">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold text-center text-purple-800">Welcome Back</CardTitle>
+            <CardDescription className="text-center">Enter your credentials to sign in</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  <a href="#" className="text-sm text-purple-600 hover:underline">Forgot password?</a>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  className="w-full"
+                />
+              </div>
+              <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={loading}>
+                {loading ? 'Signing in...' : 'Sign In'}
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter>
+            <p className="text-center text-sm text-gray-600 w-full">
+              Don't have an account?{' '}
+              <button onClick={() => navigate('/auth/signup')} className="text-purple-600 hover:underline font-medium">
+                Sign up
+              </button>
+            </p>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );
